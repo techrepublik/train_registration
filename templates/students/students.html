@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Student List</h1>
+<div class="col-md-12">
+    <!-- seach -->
+    <form method="get" action="{% url 'students' %}" class="mb-4 d-flex align-items-center">
+        <div class="d-flex">
+            <input type="text" name="search" placeholder="Search todos" class="form-control col-xs-3 me-2" value="{{ query }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <a class="btn btn-primary ms-auto" href="{% url 'stud_create' %}">Add ToDo</a>
+    </form>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Idno</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Birth</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stud in students %}
+        {% comment %} <tr class="{% if stud.gender='Male' %}text-body-success {% else %}table-secondary{% endif %} "> {% endcomment %}
+        <tr>
+            <td>{{ stud.id_no }}</td>
+            <td>{{ stud}}</td>
+            <td>{{ stud.gender }}</td>
+            <td>{{ stud.birth_date|date:"Y-m-d" }}</td>
+            <td>{{ stud.address }}</td>
+            <td>
+                <a href="{% url 'stud_update' stud.pk %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'stud_delete' stud.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% comment %} <tr class="{% if todo.completed %}text-body-success {% else %}table-secondary{% endif %} ">
+            <td>{{ todo.title }}</td>
+            <td>{{ todo.description }}</td>
+            <td>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" {% if todo.completed %}checked {% else %}{% endif %} disabled>
+                </div>
+            </td>
+            <td>{{ todo.created_at|date:"Y-m-d" }}</td>
+            <td>
+                <a href="{% url 'todo_update' todo.pk %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr> {% endcomment %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
